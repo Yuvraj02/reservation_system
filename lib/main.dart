@@ -1,9 +1,8 @@
-import 'package:dropdownfield/dropdownfield.dart';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reservation_system/reservation_screen.dart';
 import 'package:reservation_system/train.dart';
-import 'package:reservation_system/train_list.dart';
-import 'package:reservation_system/train_list_builder.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -34,8 +34,29 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Train> trainList = [
-    Train(name: "Shatabdi", coachType: "CC", number: "12002", locations: ["Hazrat Nizamuddin", "Agra", "Gwalior", "Jhansi", "Lalitpur", "Bhopal", "Habibganj"]),
-    Train(name: "Southern Expess", coachType: "Sleeper", number: "02723", locations: ["Hazrat Nizamuddin", "Agra", "Gwalior", "Jhansi", "Lalitpur", "Bhopal", "Indore", "Chennai"]),
+    Train(name: "Shatabdi", coachType: "CC", number: "12002", locations: [
+      "Hazrat Nizamuddin",
+      "Agra",
+      "Gwalior",
+      "Jhansi",
+      "Lalitpur",
+      "Bhopal",
+      "Habibganj"
+    ]),
+    Train(
+        name: "Southern Expess",
+        coachType: "Sleeper",
+        number: "02723",
+        locations: [
+          "Hazrat Nizamuddin",
+          "Agra",
+          "Gwalior",
+          "Jhansi",
+          "Lalitpur",
+          "Bhopal",
+          "Indore",
+          "Chennai"
+        ]),
     Train(
         name: "Rajdhani Express",
         coachType: "AC",
@@ -73,12 +94,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final fromLocationSelected = TextEditingController();
 
-
-  String selectFromLocation="";//Boarding Point will be stored here
-  String selectToLocation="";//Dropping point will be stored here
+  String? selectFromLocation =
+      "Hazrat Nizamuddin"; //Boarding Point will be stored here
+  String? selectToLocation = "Agra"; //Dropping point will be stored here
   final dropLocationSelected = TextEditingController();
+  String nameValue = "";
+  String trainSelected = "None";
 
-  bool trainDeets(String fromLocation,String boardingLocation,List trainRoutList) {
+  bool trainDeets(
+      String? fromLocation, String? boardingLocation, List trainRoutList) {
     bool from = false;
     bool to = false;
 
@@ -92,84 +116,180 @@ class _MyHomePageState extends State<MyHomePage> {
         print("To Matched");
       }
     }
-    if ((from && to) && (fromLocation!=boardingLocation)) {
+    if ((from && to) && (fromLocation != boardingLocation)) {
       return true;
     }
-      return false;
+    return false;
+  }
+
+  Train trainDetails(String trainName) {
+    for (int i = 0; i < trainList.length; i++) {
+      if (trainList[i].name == trainName) {
+        return Train(
+            name: trainList[i].name,
+            coachType: trainList[i].coachType,
+            number: trainList[i].number,
+            locations: trainList[i].locations);
+      }
     }
+    return Train(name: "", coachType: "", number: "", locations: []);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Center(child:Text(widget.title,style: TextStyle(color: Colors.white),),),
+        elevation: 0,
+        backgroundColor: new Color(0xFF0e1a73),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
+      body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 400,
+                margin: EdgeInsets.only(top: 16),
+                decoration: BoxDecoration(color: Colors.white),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 0),
+                      child: Row(
+                        children: [
+                          Container(
+                            // margin: EdgeInsets.all(16),
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: new Color(0xFF0e1a73),
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: DropdownButton<String>(
+                                    dropdownColor: new Color(0xFF0e1a73) ,
+                                    items: locations.map((String dropDownListItem) {
+                                      return DropdownMenuItem<String>(
+                                          value: dropDownListItem,
+                                          child: Text(dropDownListItem,style: TextStyle(color: Colors.white),));
+                                    }).toList(),
+                                    onChanged: (newValueSelected) {
+                                      setState(() {
+                                        selectFromLocation = newValueSelected;
+                                      });
+                                    },
+                                    value: selectFromLocation,
+                                  ),
+                                ),
+                           SizedBox(width: 10,),
+                                Text("To",style: TextStyle(color: Colors.white,fontSize: 16),),
+                                SizedBox(width: 10,),
 
-              width: 400,
-              decoration: BoxDecoration(
-                      color: Colors.grey
-              ),
-              child: Column(
-                children: [
-                  DropDownField(
-                    controller: fromLocationSelected,
-                    labelText: "Choose Your Boarding Point",
-                    required: true,
-                    enabled: true,
-                    items: locations,
-                    onValueChanged: (value){
-                      setState(() {
-                        selectFromLocation=value;
-                        print(selectFromLocation);
-                      });
-                    }
-                  ),
-                  DropDownField(
-                      controller: dropLocationSelected,
-                      labelText: "Choose Your Dropping Point",
-                      required: true,
-                      enabled: true,
-                      strict: false,
-                      items: locations,
-                      onValueChanged: (value){
-                        setState(() {
-                          selectToLocation=value;
-                          print(selectToLocation);
-                        });
-                      }
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height-300,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
+                           DropdownButton<String>(
+                              dropdownColor:new Color(0xFF0e1a73) ,
+                              items: locations.map((String dropDownListItem) {
+                                return DropdownMenuItem<String>(
+                                    value: dropDownListItem,
+                                    child: Text(dropDownListItem,style: TextStyle(color: Colors.white),));
+                              }).toList(),
+                              onChanged: (newValueSelected) {
+                                setState(() {
+                                  selectToLocation = newValueSelected;
+                                });
+                              },
+                              value: selectToLocation,
+                            ),
+                            ],
+                          ),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: ListView.builder(
-                        itemCount:trainList.length,
-                        itemBuilder: (context,index){
-                      if(trainDeets(selectFromLocation, selectToLocation, trainList[index].locations)){
-                        return SortedTrainList(trainList[index]);
-                      }else{
-                        return Text("");
-                      }
-                    }),
-                  )
-                ],
+                    Container(
+                      height: MediaQuery.of(context).size.height - 500,
+                      width: 390,
+                      decoration: BoxDecoration(
+                        color: new Color(0xFF0e1a73),
+                      ),
+                      child: ListView.builder(
+                          itemCount: trainList.length,
+                          itemBuilder: (context, index) {
+                            if (trainDeets(selectFromLocation, selectToLocation,
+                                trainList[index].locations)) {
+                              return Card(
+                                child: ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      trainSelected = trainList[index].name;
+                                    });
+                                  },
+                                  leading: Text(trainList[index].number),
+                                  title: Text(trainList[index].name),
+                                  subtitle: Text(trainList[index].coachType),
+                                ),
+                              );
+                            } else {
+                              return Text("");
+                            }
+                          }),
+                    )
+                  ],
+                ),
               ),
-            ),
-            RaisedButton(child: Text("Book Now"),onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return Reservation(trainList: trainList[0]);
-              }));
-            }),
-          ],
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      icon: Icon(Icons.contact_page_rounded),
+                      labelText: "Enter Your Name",
+                      border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(25.0),
+                          borderSide: new BorderSide())),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Name is Required";
+                    }
+                    return null;
+                  },
+                  onChanged: (nm) {
+                    nameValue = nm;
+                  },
+                ),
+              ),
+              Container(
+                width: 500,
+                height: 50,
+                margin: EdgeInsets.fromLTRB(16, 0, 16, 10),
+                decoration: BoxDecoration(
+
+                ),
+                child:
+                    Center(child: Text("Selected Train is : ${trainSelected}",style: TextStyle(color: new Color(0xFF0e1a73),fontSize: 18),)),
+              ),
+              RaisedButton(
+                  child: Text("Book Now",style: TextStyle(color: Colors.white),),
+                  onPressed: () {
+                    if (trainSelected == "None" || nameValue == "") {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Please Check all the inputs again"),
+                      ));
+                    } else {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return Reservation(
+                            nameValue, trainDetails(trainSelected),selectFromLocation,selectToLocation);
+                      }));
+                    }
+                  },
+                color: new Color(0xFF0e1a73),
+                  shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(20.0),
+      ),),
+            ],
+          ),
         ),
-      ),
     );
   }
 }
