@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'train.dart';
 
 class Reservation extends StatefulWidget {
+
   Train trainDeets;
+
   String userName;
+
   String? fromLocation;
+
   String? toLocation;
 
   Reservation(
