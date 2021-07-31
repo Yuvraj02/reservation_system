@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'train.dart';
+import '../models/train.dart';
 
 class Reservation extends StatefulWidget {
 
@@ -54,7 +54,7 @@ class _ReservationState_ extends State<Reservation> {
         children: [
           Container(
               margin: EdgeInsets.all(16),
-              height: 400,
+              height: 450,
               width: 400,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -67,7 +67,7 @@ class _ReservationState_ extends State<Reservation> {
                   children: [
                     Text(
                       "Train Name : ${widget.trainDeets.name}",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18, color: Colors.white),
                     ),
                     SizedBox(
                       height: 10.0,
@@ -81,14 +81,14 @@ class _ReservationState_ extends State<Reservation> {
                     ),
                     Text(
                       "Train Number :${widget.trainDeets.number}",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18, color: Colors.white),
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
                     Text(
                       "From: ${widget.fromLocation}, To : ${widget.toLocation}",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18, color: Colors.white),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -102,7 +102,7 @@ class _ReservationState_ extends State<Reservation> {
                     ),
                     Text(
                       "Name : ${widget.userName}",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18, color: Colors.white),
                     ),
                     SizedBox(
                       height: 10.0,
@@ -123,7 +123,14 @@ class _ReservationState_ extends State<Reservation> {
                     ),
                     Text(
                       "Phone Number : +91-8770805985",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18, color: Colors.white),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "PNR No. : 102817005985",
+                      style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18, color: Colors.white),
                     ),
                     SizedBox(
                       height: 30.0,

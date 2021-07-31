@@ -1,14 +1,16 @@
-//
-// import 'dart:js';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:reservation_system/reservation_screen.dart';
-import 'package:reservation_system/train.dart';
-import 'package:reservation_system/train_tile.dart';
+import 'package:reservation_system/screens/reservation_screen.dart';
+import 'package:reservation_system/models/train.dart';
 
-class TrainProvider extends ChangeNotifier{
-
+class TrainProvider extends ChangeNotifier {
+  bool showTrains = false;
+  final fromLocationSelected = TextEditingController();
+  String? selectFromLocation = "Hazrat Nizamuddin"; //Boarding Point will be stored here
+  String? selectToLocation = "Agra"; //Dropping point will be stored here
+  final dropLocationSelected = TextEditingController();
+  String nameValue = "";
+  String trainSelected = "None";
   List<Train> trainList = [Train(name: "Shatabdi", coachType: "CC", number: "12002", locations: [
       "Hazrat Nizamuddin",
       "Agra",
@@ -53,15 +55,8 @@ class TrainProvider extends ChangeNotifier{
           "Lalitpur",
           "Jabalpur"
         ]),];
-  List<String> locations = ["Hazrat Nizamuddin", "Agra", "Gwalior", "Jhansi", "Bhopal", "Jabalpur",];
 
-  bool showTrains=false;
-  final fromLocationSelected = TextEditingController();
-  String? selectFromLocation ="Hazrat Nizamuddin"; //Boarding Point will be stored here
-  String? selectToLocation = "Agra"; //Dropping point will be stored here
-  final dropLocationSelected = TextEditingController();
-  String nameValue = "";
-  String trainSelected = "None";
+  List<String> locations = ["Hazrat Nizamuddin", "Agra", "Gwalior", "Jhansi", "Bhopal", "Jabalpur",];
 
   bool trainDeets(String? fromLocation, String? boardingLocation, List trainRoutList) {
     bool from = false;
@@ -92,12 +87,12 @@ class TrainProvider extends ChangeNotifier{
     return Train(name: "", coachType: "", number: "", locations: []);
   }
 
-  void trainAssign(String trainName){
-    trainSelected=trainName;
+  void trainAssign(String trainName) {
+    trainSelected = trainName;
     notifyListeners();
   }
 
-  void ticketPage(BuildContext context){
+  void ticketPage(BuildContext context) {
     if (trainSelected == "None" || nameValue == "") {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Please Check all the inputs again"),
@@ -105,27 +100,26 @@ class TrainProvider extends ChangeNotifier{
     } else {
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) {
-            return Reservation(
-                nameValue, trainDetails(trainSelected),selectFromLocation,selectToLocation);
-          }));
+        return Reservation(nameValue, trainDetails(trainSelected),
+            selectFromLocation, selectToLocation);
+      }));
     }
   }
 
-  void showTrainButton(bool state){
-    showTrains=true;
+  void showTrainButton(bool state) {
+    showTrains = true;
     notifyListeners();
   }
 
-  void selectedFromLocation(String? loc){
-      selectFromLocation = loc;
-      showTrains=false;
-      notifyListeners();
+  void selectedFromLocation(String? loc) {
+    selectFromLocation = loc;
+    showTrains = false;
+    notifyListeners();
   }
 
-  void selectedToLocation(String? loc){
+  void selectedToLocation(String? loc) {
     selectToLocation = loc;
-    showTrains=false;
+    showTrains = false;
     notifyListeners();
   }
-
 }

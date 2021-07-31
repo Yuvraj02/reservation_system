@@ -1,18 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reservation_system/provider.dart';
-import 'package:reservation_system/train.dart';
+import 'package:reservation_system/providers/provider.dart';
 
 class TrainTile extends StatefulWidget{
   TrainTile();
-
   _TrainTileState_ createState() => _TrainTileState_();
-
 }
 
 class _TrainTileState_ extends State<TrainTile>{
-
 
   @override
   Widget build(BuildContext context) {
