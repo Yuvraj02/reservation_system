@@ -14,6 +14,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
+  final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +77,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                   labelText: 'Email-ID',
                 ),
+                controller: emailController,
               ),
             ),
             Padding(
@@ -107,6 +109,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 onPressed: () {
                   if(provider.checkFields(userNameController.text, passwordController.text)){
                     provider.saveData(userNameController.text,passwordController.text);
+                    provider.registrationAuth(emailController.text, passwordController.text);
                   }else{
                     Fluttertoast.showToast(
                         msg: "Please enter Username and Password",

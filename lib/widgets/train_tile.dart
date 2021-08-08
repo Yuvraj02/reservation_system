@@ -25,9 +25,9 @@ class _TrainTileState_ extends State<TrainTile>{
                       trainProvider.trainAssign(trainProvider.trainList[index].name);
                       print(trainProvider.trainSelected);
                     },
-                    leading: Text(trainProvider.trainList[index].number),
-                    title: Text(trainProvider.trainList[index].name),
-                    subtitle: Text(trainProvider.trainList[index].coachType),
+                    leading: Text("${trainProvider.trainList[index].number}"),
+                    title: Text("${trainProvider.trainList[index].name}"),
+                    subtitle: Text("${trainProvider.trainList[index].coachType}"),
                   ),
                 );
               } else {

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:reservation_system/models/user_model.dart';
+import 'package:reservation_system/providers/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum AuthStates{
@@ -7,12 +9,13 @@ enum AuthStates{
 }
 
 class FormProvider extends ChangeNotifier{
-
   FormProvider(){
-  autoLogin();
+  //autoLogin();
   }
 
   AuthStates states = AuthStates.newUser;
+
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   String userName="";
   String password="";
@@ -108,4 +111,39 @@ bool loadHomeScreen(){
   return false;
   }
 
-}
+  registrationAuth(String email, String password)async{
+      UserCredential user = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+
+      if(user!=null){
+
+      }
+
+      states=AuthStates.unAuthenticated;
+      notifyListeners();
+      // if(user.user != null){
+      //   states=AuthStates.newUser;
+      //   notifyListeners();
+      //   return true;
+      // }else{
+      //   states=AuthStates.unAuthenticated;
+      //   notifyListeners();
+      //   return false;
+      }
+  }
+
+  // Future<bool> loginAuth(String email, String password)async{
+  //
+  //   UserCredential user = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+  //
+  //   if(user.user != null){
+  //     states=AuthStates.authenticated;
+  //     await getUserData();
+  //
+  //     notifyListeners();
+  //     return true;
+  //   }else{
+  //     states=AuthStates.unAuthenticated;
+  //     notifyListeners();
+  //     return false;
+  //   }
+  // }

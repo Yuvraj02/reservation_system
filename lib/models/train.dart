@@ -1,12 +1,24 @@
-import 'package:flutter/material.dart';
+class Train {
+  String? name;
+  String? coachType;
+  String? number;
+  List<String>? locations;
 
-class Train{
-   String name;
-   String coachType;
-   String number;
+  Train({this.name, this.coachType, this.number, this.locations});
 
-   List<String> locations;
+  Train.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    coachType = json['coachType'];
+    number = json['number'];
+    locations = json['locations'].cast<String>();
+  }
 
-  Train({required this.name,required this.coachType,required this.number,required this.locations});
-
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['coachType'] = this.coachType;
+    data['number'] = this.number;
+    data['locations'] = this.locations;
+    return data;
+  }
 }
