@@ -13,7 +13,6 @@ class TrainProvider extends ChangeNotifier {
   }
 
 
-
   bool showTrains = false;
   final fromLocationSelected = TextEditingController();
   String? selectFromLocation = "Hazrat Nizamuddin"; //Boarding Point will be stored here
@@ -21,53 +20,7 @@ class TrainProvider extends ChangeNotifier {
   final dropLocationSelected = TextEditingController();
   String nameValue = "";
   String? trainSelected = "None";
-  // List<Train> trainList =
-  // [Train(name: "Shatabdi", coachType: "CC", number: "12002", locations: [
-  //     "Hazrat Nizamuddin",
-  //     "Agra",
-  //     "Gwalior",
-  //     "Jhansi",
-  //     "Lalitpur",
-  //     "Bhopal",
-  //     "Habibganj"
-  //   ]), Train(
-  //       name: "Southern Expess",
-  //       coachType: "Sleeper",
-  //       number: "02723",
-  //       locations: [
-  //         "Hazrat Nizamuddin",
-  //         "Agra",
-  //         "Gwalior",
-  //         "Jhansi",
-  //         "Lalitpur",
-  //         "Bhopal",
-  //         "Indore",
-  //         "Chennai"
-  //       ]), Train(
-  //       "name": "Rajdhani Express",
-  //       "coachType": "AC",
-  //       "number": "12122",
-  //       "locations": [
-  //         "Hazrat Nizamuddin",
-  //         "Agra",
-  //         "Gwalior",
-  //         "Jhansi",
-  //         "Lalitpur",
-  //         "Bhopal"
-  //       ]), Train(
-  //       "name": "Jabalpur-NZM Express",
-  //       "coachType": "AC-Sleeper",
-  //       "number": "12181",
-  //       "locations": [
-  //         "Hazrat Nizamuddin",
-  //         "Agra",
-  //         "Gwalior",
-  //         "Jhansi",
-  //         "Lalitpur",
-  //         "Jabalpur"
-  //       ]),];
   List<Train> trainList = [];
-
   List<String> locations = ["Hazrat Nizamuddin", "Agra", "Gwalior", "Jhansi", "Bhopal", "Jabalpur",];
 
   bool trainDeets(String? fromLocation, String? boardingLocation, List? trainRoutList) {
@@ -144,24 +97,6 @@ class TrainProvider extends ChangeNotifier {
       });
     });
   }
-  
-  // void addTrain()async{
-  //   await FirebaseFirestore.instance.collection("Train").add({
-  //     "name": "Jabalpur-NZM Express",
-  //           "coachType": "AC-Sleeper",
-  //           "number": "12181",
-  //           "locations": [
-  //             "Hazrat Nizamuddin",
-  //             "Agra",
-  //             "Gwalior",
-  //             "Jhansi",
-  //             "Lalitpur",
-  //             "Jabalpur"
-  //           ]
-  //   });
-  //
-  // }
-
 
   
 }

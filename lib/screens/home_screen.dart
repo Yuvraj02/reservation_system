@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-              "Hello ${provider.userDataModel.userName},",
+              "Home",
               style: TextStyle(color: Colors.white),
             ),
           elevation: 0,

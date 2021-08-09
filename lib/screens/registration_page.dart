@@ -106,10 +106,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
             Consumer<FormProvider>(builder: (context, provider, child) {
               return RaisedButton(
-                onPressed: () {
+                onPressed: () async{
                   if(provider.checkFields(userNameController.text, passwordController.text)){
-                    provider.saveData(userNameController.text,passwordController.text);
-                    provider.registrationAuth(emailController.text, passwordController.text);
+                    //provider.saveData(userNameController.text,passwordController.text);
+                   await  provider.registrationAuth(emailController.text, passwordController.text);
                   }else{
                     Fluttertoast.showToast(
                         msg: "Please enter Username and Password",
@@ -121,12 +121,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         fontSize: 16.0
                     );
                   }
-
-                  // provider.printData();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (BuildContext context) {
-                  //       return LoginScreen();
-                  //     }));
 
                 },
                 shape: RoundedRectangleBorder(

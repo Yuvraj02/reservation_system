@@ -37,7 +37,7 @@ class _LoginScreenSate_ extends State<LoginScreen>{
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                      labelText: 'Username',
+                      labelText: 'Email',
                     ),
                   ),
                 ),
@@ -62,30 +62,31 @@ class _LoginScreenSate_ extends State<LoginScreen>{
                   ),
                   onPressed: () async{
                     if(provider.checkFields(userController.text, passwordController.text)){
-                      provider.setUserNameandPassword(userController.text, passwordController.text);
 
-                      if(await provider.checkData()){
-                        // provider.states=AuthStates.authenticated;
-                        Fluttertoast.showToast(
-                            msg: "Logging In",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: new Color(0xFF0e1a73),
-                            textColor: Colors.white,
-                            fontSize: 16.0
-                        );
-                      }else{
-                        Fluttertoast.showToast(
-                            msg: "Invalid Username or Password",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: new Color(0xFF0e1a73),
-                            textColor: Colors.white,
-                            fontSize: 16.0
-                        );
-                      }
+                     provider.loginAuth(userController.text, passwordController.text);
+
+                      // if(await provider.checkData()){
+                      //   // provider.states=AuthStates.authenticated;
+                      //   Fluttertoast.showToast(
+                      //       msg: "Logging In",
+                      //       toastLength: Toast.LENGTH_SHORT,
+                      //       gravity: ToastGravity.BOTTOM,
+                      //       timeInSecForIosWeb: 1,
+                      //       backgroundColor: new Color(0xFF0e1a73),
+                      //       textColor: Colors.white,
+                      //       fontSize: 16.0
+                      //   );
+                      // }else{
+                      //   Fluttertoast.showToast(
+                      //       msg: "Invalid Username or Password",
+                      //       toastLength: Toast.LENGTH_SHORT,
+                      //       gravity: ToastGravity.BOTTOM,
+                      //       timeInSecForIosWeb: 1,
+                      //       backgroundColor: new Color(0xFF0e1a73),
+                      //       textColor: Colors.white,
+                      //       fontSize: 16.0
+                      //   );
+                      // }
                     }else{
                       Fluttertoast.showToast(
                           msg: "Username/Password cannot be empty",

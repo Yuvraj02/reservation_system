@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:reservation_system/models/user_model.dart';
 import 'package:reservation_system/providers/provider.dart';
@@ -10,10 +11,10 @@ enum AuthStates{
 
 class FormProvider extends ChangeNotifier{
   FormProvider(){
-  //autoLogin();
+  autoLogin();
   }
 
-  AuthStates states = AuthStates.newUser;
+  AuthStates states = AuthStates.unAuthenticated;
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -22,6 +23,7 @@ class FormProvider extends ChangeNotifier{
   String? email;
   bool isPasswordSame=false;
   bool isLoadingAnimation = true;
+  bool? autoLoginBool=false;
 
  var userDataModel = UserModel();
 
@@ -67,8 +69,7 @@ class FormProvider extends ChangeNotifier{
 
   void printData() async{
     await getUserData();
-    // print(userDataModel.userName);
-    // print(userName);
+
 }
 
 bool isLoading(){
@@ -88,16 +89,19 @@ bool loadHomeScreen(){
 
    autoLogin()async{
     states = AuthStates.authenticating;
-    await getUserData();
+   // await getUserData();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(userDataModel.userName == null || userDataModel.password==null){
-      states=AuthStates.unAuthenticated;
-    }else if(userDataModel.userName==sharedPreferences.getString("username") && userDataModel.password==sharedPreferences.getString("password")){
+
+    autoLoginBool = sharedPreferences.getBool("autoLogin");
+
+    if(autoLoginBool != null){
       states=AuthStates.authenticated;
+      notifyListeners();
     }else{
-      states = AuthStates.unAuthenticated;
+      states=AuthStates.unAuthenticated;
+      notifyListeners();
     }
-    notifyListeners();
+
   }
   void register(){
     states=AuthStates.newUser;
@@ -111,39 +115,34 @@ bool loadHomeScreen(){
   return false;
   }
 
+
   registrationAuth(String email, String password)async{
+
+    try{
       UserCredential user = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-
-      if(user!=null){
-
+      if (user.user != null) {
+        states = AuthStates.unAuthenticated;
+        notifyListeners();
       }
+    }catch(e){
+      print(e);
+    }
 
-      states=AuthStates.unAuthenticated;
-      notifyListeners();
-      // if(user.user != null){
-      //   states=AuthStates.newUser;
-      //   notifyListeners();
-      //   return true;
-      // }else{
-      //   states=AuthStates.unAuthenticated;
-      //   notifyListeners();
-      //   return false;
-      }
   }
 
-  // Future<bool> loginAuth(String email, String password)async{
-  //
-  //   UserCredential user = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-  //
-  //   if(user.user != null){
-  //     states=AuthStates.authenticated;
-  //     await getUserData();
-  //
-  //     notifyListeners();
-  //     return true;
-  //   }else{
-  //     states=AuthStates.unAuthenticated;
-  //     notifyListeners();
-  //     return false;
-  //   }
-  // }
+      loginAuth(String em,String pass)async{
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        try {
+          UserCredential user = await firebaseAuth.signInWithEmailAndPassword(
+              email: em, password: pass);
+          if (user.user != null) {
+            states = AuthStates.authenticated;
+            sharedPreferences.setBool("autoLogin", true);
+            notifyListeners();
+          }
+        }catch(e){
+          print("Null field or Invalid Credentials");
+        }
+      }
+
+  }
